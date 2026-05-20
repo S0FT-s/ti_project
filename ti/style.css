@@ -1,0 +1,12 @@
+.card-header.sensor{
+    background-color: #93baff;
+}
+
+.card-header.atuador{
+    background-color:#ffbf6c;
+}
+
+.AulaForm{
+    width: 350px;
+    padding: 15px;
+}
