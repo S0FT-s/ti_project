@@ -68,7 +68,7 @@
     <div class="container d-flex justify-content-around align-items-center">
         <div id="title-header">
             <h1>Servidor IoT</h1>
-            <h6>user:Alexandre Lopes</h6>
+            <h6>user:<?php echo $_SESSION['username']?></h6>
         </div>
 
         <img width="300" src="images/estg.png" alt="Logo estg">

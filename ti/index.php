@@ -18,9 +18,6 @@
       header('refresh:0;url=dashboard.php');
       $_SESSION['username'] = $_POST['username'];
     }
-    // else{
-    //   echo "Credenciais Incorretas";
-    // }
   }
 
 ?>
