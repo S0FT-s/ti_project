@@ -98,7 +98,7 @@
                     <div class="card-footer">
                         <p class="text-center">
                             <strong>Atualizacao: </strong><?php echo $hora_temperatura;  ?>
-                            <a href="#">Historico</a>
+                            <a href="historico.php?nome=<?php echo $nome_temperatura?>">Historico</a>
                         </p>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                     <div class="card-footer">
                         <p class="text-center">
                             <strong>Atualizacao: </strong><?php echo $hora_humidade;  ?>
-                            <a href="#">Historico</a>
+                            <a href="historico.php?nome=<?php echo $nome_humidade?>">Historico</a>
                         </p>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     <div class="card-footer">
                         <p class="text-center">
                             <strong>Atualizacao: </strong><?php echo $hora_led;  ?>
-                            <a href="#">Historico</a>
+                            <a href="historico.php?nome=<?php echo $nome_led?>">Historico</a>
                         </p>
                     </div>
                 </div>
