@@ -15,12 +15,12 @@
 
    if(isset($_POST['username'],$_POST['password'])){ 
     if($username == $_POST['username'] and password_verify($_POST['password'],$password_hash)){
+      header('refresh:0;url=dashboard.php');
       $_SESSION['username'] = $_POST['username'];
-      header('location: http://127.0.0.1/ti/dashboard.php');
-      exit;
-    }else{
-      echo "Credenciais Incorretas";
     }
+    // else{
+    //   echo "Credenciais Incorretas";
+    // }
   }
 
 ?>
