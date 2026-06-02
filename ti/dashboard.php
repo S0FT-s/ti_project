@@ -20,6 +20,16 @@
   $hora_led = file_get_contents("api/files/led/hora.txt");
   $log_led = file_get_contents("api/files/led/log.txt");
   $nome_led = file_get_contents("api/files/led/nome.txt");
+  
+  $valor_ventoinha = file_get_contents("api/files/ventoinha/valor.txt");
+  $hora_ventoinha = file_get_contents("api/files/ventoinha/hora.txt");
+  $log_ventoinha = file_get_contents("api/files/ventoinha/log.txt");
+  $nome_ventoinha = file_get_contents("api/files/ventoinha/nome.txt");
+  
+  $valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
+  $hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
+  $log_buzzer = file_get_contents("api/files/buzzer/log.txt");
+  $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
 
   ?>
 
@@ -160,6 +170,74 @@
                         <p class="text-center">
                             <strong>Atualizacao: </strong><?php echo $hora_led;  ?>
                             <a href="historico.php?nome=<?php echo strtolower($nome_led)?>">Historico</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header atuador">
+                        <p class="text-center">
+                            <?php
+                                if($valor_ventoinha == 1){
+                                    echo "<strong>$nome_ventoinha: </strong> LIGADO";
+                                }else{
+                                    echo "<strong>$nome_ventoinha: </strong> DESLIGADO";
+                                } 
+                                
+                            ?>
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                        <?php 
+                        if($valor_led==1){
+                            echo "<img src='images/light-on.png' alt='ventoinha_on'>";
+                        }else{
+                            echo "<img src='images/light-off.png' alt='ventoinha_off'>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="text-center">
+                            <strong>Atualizacao: </strong><?php echo $hora_ventoinha;  ?>
+                            <a href="historico.php?nome=<?php echo strtolower($nome_ventoinha)?>">Historico</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header atuador">
+                        <p class="text-center">
+                            <?php
+                                if($valor_buzzer== 1){
+                                    echo "<strong>$nome_buzzer: </strong> LIGADO";
+                                }else{
+                                    echo "<strong>$nome_buzzer: </strong> DESLIGADO";
+                                } 
+                                
+                            ?>
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                        <?php 
+                        if($valor_buzzer==1){
+                            echo "<img src='images/light-on.png' alt='ventoinha_on'>";
+                        }else{
+                            echo "<img src='images/light-off.png' alt='ventoinha_off'>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="text-center">
+                            <strong>Atualizacao: </strong><?php echo $hora_buzzer;  ?>
+                            <a href="historico.php?nome=<?php echo strtolower($nome_buzzer)?>">Historico</a>
                         </p>
                     </div>
                 </div>
