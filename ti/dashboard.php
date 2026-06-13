@@ -192,10 +192,10 @@
 
                     <div class="card-body">
                         <?php 
-                        if($valor_led==1){
-                            echo "<img src='images/light-on.png' alt='ventoinha_on'>";
+                        if($valor_ventoinha==1){
+                            echo "<img src='images/ventoinhaLigada.png' alt='ventoinha_on'>";
                         }else{
-                            echo "<img src='images/light-off.png' alt='ventoinha_off'>";
+                            echo "<img src='images/ventoinhaDesligada.png' alt='ventoinha_off'>";
                         }
                         ?>
                     </div>
@@ -214,6 +214,7 @@
                     <div class="card-header atuador">
                         <p class="text-center">
                             <?php
+                            
                                 if($valor_buzzer== 1){
                                     echo "<strong>$nome_buzzer: </strong> LIGADO";
                                 }else{
@@ -227,9 +228,9 @@
                     <div class="card-body">
                         <?php 
                         if($valor_buzzer==1){
-                            echo "<img src='images/light-on.png' alt='ventoinha_on'>";
+                            echo "<img src='' alt='Buzzer_on'>";
                         }else{
-                            echo "<img src='images/light-off.png' alt='ventoinha_off'>";
+                            echo "<img src='' alt='Buzzer_off'>";
                         }
                         ?>
                     </div>
