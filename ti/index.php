@@ -1,27 +1,35 @@
 <?php
+session_start();
+$erro_login = false;
+echo "admin " . password_hash("12345", PASSWORD_DEFAULT);
+// 1. Lógica de Validação do Login
+if (isset($_POST['username'], $_POST['password'])) { 
+  $users = []; 
   
-  /*if (isset($_POST['username'])){
-  echo "O username submetido foi: ".$_POST['username']."<br>";
+  // Ler o ficheiro e popular o array
+  if (file_exists('credenciais.txt')) {
+      $linhas = file('credenciais.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+      foreach ($linhas as $linha) {
+          if (strpos($linha, ' ') !== false) {
+              list($username_do_ficheiro, $password_hash) = explode(' ', $linha, 2);
+              $users[trim($username_do_ficheiro)] = trim($password_hash);
+          }
+      }
   }
-  if (isset($_POST['password'])){
-  echo "A password submetida foi: ".$_POST['password']."<br>";
-  }
-  */
   
-  session_start();
-  $username="admin";
-  #admin1234
-  $password_hash= '$2y$10$Cums9KctaZDiFw6.EpTVxe7y8/ue9aZx4FwU5FC/4OBGcITJ3PveK';
+  $user_inserido = trim($_POST['username']);    
+  $pass_inserida = $_POST['password'];
 
-   if(isset($_POST['username'],$_POST['password'])){ 
-    if($username == $_POST['username'] and password_verify($_POST['password'],$password_hash)){
-      header('refresh:0;url=dashboard.php');
-      $_SESSION['username'] = $_POST['username'];
-    }
+  // Verificar se o user existe e a password coincide
+  if (isset($users[$user_inserido]) && password_verify($pass_inserida, $users[$user_inserido])) {
+      $_SESSION['username'] = $user_inserido;
+      header('Location: dashboard.php'); 
+      exit(); 
+  } else {
+      $erro_login = true;
   }
+}
 ?>
-
-
 
 <!doctype html>
 <html lang="en">
@@ -39,15 +47,35 @@
                 <a href="index.php"><img src="images/estg_h.png" alt="logo estg"></a>
                 <div class="mb-3">
                     <label for="username" class="form-label">Username:</label>
-                    <input name="username" type="text" class="form-control" id="username" placeholder="Insira o seu username" required>
+                    <input name="username" type="text" class="form-control <?php if($erro_login) { echo 'is-invalid'; } ?>" id="username" placeholder="Insira o seu username" required>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password:</label>
-                    <input name="password" type="password" class="form-control" id="password" placeholder="Insira a sua password" required>
+                    <input name="password" type="password" class="form-control <?php if($erro_login) { echo 'is-invalid'; } ?>" id="password" placeholder="Insira a sua password" required>
+                    <?php if($erro_login): ?>
+                      <div class="invalid-feedback">
+                        Username ou password incorretos.
+                      </div>
+                    <?php endif; ?>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>
     </div>
 </body>
+
+<style>
+body {
+  background-image: url("images/login.webp");
+  background-size: cover;       
+  background-position: center;  
+  background-attachment: fixed; 
+  margin: 0;                    
+} 
+.AulaForm {
+  background-color: rgba(255, 255, 255, 0.8); 
+  padding: 30px; 
+  border-radius: 10px; 
+}
+</style>
 </html>

@@ -68,8 +68,6 @@ if(isset($_GET['nome'])){
 <div class="container mt-4">
 
 <?php if (isset($nomeSensor)): ?>
-
-    <!-- 🔵 HISTÓRICO INDIVIDUAL -->
     <a href="historico.php" class="btn btn-secondary mb-3">Voltar</a>
 
     <?php
@@ -119,8 +117,6 @@ if(isset($_GET['nome'])){
     <?php } ?>
 
 <?php else: ?>
-
-    <!-- 🟢 HISTÓRICO GERAL -->
     <h3 class="mb-4"><strong>Histórico Geral</strong></h3>
 
     <?php
