@@ -1,8 +1,7 @@
 <?php
 session_start();
 $erro_login = false;
-echo "admin " . password_hash("12345", PASSWORD_DEFAULT);
-// 1. Lógica de Validação do Login
+
 if (isset($_POST['username'], $_POST['password'])) { 
   $users = []; 
   

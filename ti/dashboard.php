@@ -1,37 +1,40 @@
 <?php 
-  session_start();
-  if(!isset($_SESSION['username'])){
+session_start();
+if(!isset($_SESSION['username'])){
     header("refresh:5;url=index.php");
-    die("Acesso Restrito");
-  }
-  
-  //variaveis
-  $valor_temperatura = file_get_contents("api/files/temperatura/valor.txt");
-  $hora_temperatura = file_get_contents("api/files/temperatura/hora.txt");
-  $log_temperatura = file_get_contents("api/files/temperatura/log.txt");
-  $nome_temperatura = file_get_contents("api/files/temperatura/nome.txt");
-  
-  $valor_humidade = file_get_contents("api/files/humidade/valor.txt");
-  $hora_humidade = file_get_contents("api/files/humidade/hora.txt");
-  $log_humidade = file_get_contents("api/files/humidade/log.txt");
-  $nome_humidade = file_get_contents("api/files/humidade/nome.txt");
-  
-  $valor_led = file_get_contents("api/files/led/valor.txt");
-  $hora_led = file_get_contents("api/files/led/hora.txt");
-  $log_led = file_get_contents("api/files/led/log.txt");
-  $nome_led = file_get_contents("api/files/led/nome.txt");
-  
-  $valor_ventoinha = file_get_contents("api/files/ventoinha/valor.txt");
-  $hora_ventoinha = file_get_contents("api/files/ventoinha/hora.txt");
-  $log_ventoinha = file_get_contents("api/files/ventoinha/log.txt");
-  $nome_ventoinha = file_get_contents("api/files/ventoinha/nome.txt");
-  
-  $valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
-  $hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
-  $log_buzzer = file_get_contents("api/files/buzzer/log.txt");
-  $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
+    exit("Acesso Restrito");
+}
+$user = $_SESSION['username'];
+$isAdmin = ($user === 'admin');
+$isGestor = ($user === 'gestor');
 
-  ?>
+//variaveis
+$valor_temperatura = file_get_contents("api/files/temperatura/valor.txt");
+$hora_temperatura = file_get_contents("api/files/temperatura/hora.txt");
+$log_temperatura = file_get_contents("api/files/temperatura/log.txt");
+$nome_temperatura = file_get_contents("api/files/temperatura/nome.txt");
+
+$valor_humidade = file_get_contents("api/files/humidade/valor.txt");
+$hora_humidade = file_get_contents("api/files/humidade/hora.txt");
+$log_humidade = file_get_contents("api/files/humidade/log.txt");
+$nome_humidade = file_get_contents("api/files/humidade/nome.txt");
+
+$valor_led = file_get_contents("api/files/led/valor.txt");
+$hora_led = file_get_contents("api/files/led/hora.txt");
+$log_led = file_get_contents("api/files/led/log.txt");
+$nome_led = file_get_contents("api/files/led/nome.txt");
+
+$valor_ventoinha = file_get_contents("api/files/ventoinha/valor.txt");
+$hora_ventoinha = file_get_contents("api/files/ventoinha/hora.txt");
+$log_ventoinha = file_get_contents("api/files/ventoinha/log.txt");
+$nome_ventoinha = file_get_contents("api/files/ventoinha/nome.txt");
+
+$valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
+$hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
+$log_buzzer = file_get_contents("api/files/buzzer/log.txt");
+$nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
+
+?>
 
 
 <!doctype html>
@@ -50,7 +53,7 @@
 </head>
 
 <body>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="dashboard.php">Dashboard EI-TI</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
@@ -61,16 +64,23 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="dashboard.php">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="historico.php">Historico</a>
-              </li>
+              <?php if($isAdmin || $isGestor): ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="historico.php">Historico</a>
+                </li>
+              <?php endif; ?>
+              <?php if($isAdmin):?>
+                <li class="nav-item">
+                    <a class="nav-link" href="configuracao.php">Configuração</a>
+                </li>
+              <?php endif; ?>
             </ul>
             <form action="logout.php" class="d-flex" method="POST">
               <button class="btn btn-outline-secondary" type="submit">Logout</button>
             </form>
           </div>
         </div>
-      </nav>
+    </nav>
     
 
 
@@ -78,7 +88,7 @@
     <div class="container d-flex justify-content-around align-items-center">
         <div id="title-header">
             <h1>Servidor IoT</h1>
-            <h6>user:<?php echo $_SESSION['username']?><</h6>
+            <h6>user: <?php echo $_SESSION['username']?></h6>
         </div>
 
         <img width="300" src="images/estg.png" alt="Logo estg">
