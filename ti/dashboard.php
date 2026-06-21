@@ -33,6 +33,7 @@ $valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
 $hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
 $log_buzzer = file_get_contents("api/files/buzzer/log.txt");
 $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
+date_default_timezone_set('Europe/Lisbon');
 
 ?>
 
@@ -95,7 +96,7 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
     </div>
 
     <div class="container text-center">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center g-4">
 
             <div class="col-sm-3">
                 <div class="card">
@@ -117,7 +118,7 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
 
                     <div class="card-footer">
                         <p class="text-center">
-                            <strong>Atualizacao: </strong><?php echo $hora_temperatura;  ?>
+                            <strong>Atualização: </strong><?php echo $hora_temperatura;  ?>
                             <a href="historico.php?nome=<?php echo strtolower($nome_temperatura)?>">Historico</a>
                         </p>
                     </div>
@@ -144,7 +145,7 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
 
                     <div class="card-footer">
                         <p class="text-center">
-                            <strong>Atualizacao: </strong><?php echo $hora_humidade;  ?>
+                            <strong>Atualização: </strong><?php echo $hora_humidade;  ?>
                             <a href="historico.php?nome=<?php echo strtolower($nome_humidade)?>">Historico</a>
                         </p>
                     </div>
@@ -178,7 +179,7 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
 
                     <div class="card-footer">
                         <p class="text-center">
-                            <strong>Atualizacao: </strong><?php echo $hora_led;  ?>
+                            <strong>Atualização: </strong><?php echo $hora_led;  ?>
                             <a href="historico.php?nome=<?php echo strtolower($nome_led)?>">Historico</a>
                         </p>
                     </div>
@@ -212,7 +213,7 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
 
                     <div class="card-footer">
                         <p class="text-center">
-                            <strong>Atualizacao: </strong><?php echo $hora_ventoinha;  ?>
+                            <strong>Atualização: </strong><?php echo $hora_ventoinha;  ?>
                             <a href="historico.php?nome=<?php echo strtolower($nome_ventoinha)?>">Historico</a>
                         </p>
                     </div>
@@ -247,19 +248,52 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
 
                     <div class="card-footer">
                         <p class="text-center">
-                            <strong>Atualizacao: </strong><?php echo $hora_buzzer;  ?>
+                            <strong>Atualização: </strong><?php echo $hora_buzzer;  ?>
                             <a href="historico.php?nome=<?php echo strtolower($nome_buzzer)?>">Historico</a>
                         </p>
                     </div>
                 </div>
             </div>
+            
+            <?php if($isAdmin || $isGestor): ?>
+                <div class="col-sm-3 mb-4">
+                    <div class="card">
+                        <div class="card-header controlo">
+                            <p class="text-center"><strong>Controlo</strong></p>
+                        </div>
+                        
+                        <div class="card-body justify-content-center">
+                            
+                            <form action="api/api.php" method="POST" class="mb-3">
+                                <input type="hidden" name="nome" value="led">
+                                <input type="hidden" name="valor" value="<?php echo ($valor_led == 1) ? '0' : '1'; ?>">
+                                <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
 
+                                <button type="submit" class="btn btn-success w-100">
+                                    <?php echo ($valor_led == 1) ? 'Desligar' : 'Ligar';?> luz
+                                </button>
+                            </form>
+
+                            <form action="api/api.php" method="POST">
+                                <input type="hidden" name="nome" value="ventoinha">
+                                <input type="hidden" name="valor" value="<?php echo ($valor_ventoinha == 1) ? '0' : '1'; ?>">
+                                <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
+
+                                <button type="submit" class="btn btn-success w-100">
+                                    <?php echo ($valor_ventoinha == 1) ? 'Desligar' : 'Ligar';?> ventoinha
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
         <br>
         <div class="col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <th>Tabela de Sensores</th>
+                    <th>Tabela de Sensores & Atuadores</th>
                 </div>
 
                 <div class="card-body">
@@ -270,7 +304,7 @@ $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
                                 <th>Tipo de Dispositivo IoT</th>
                                 <th>Valor</th>
                                 <th>Data de Atualização</th>
-                                <th>Estados Alertas</th>
+                                <th>Estados</th>
                             </tr>
                         </thead>
 
