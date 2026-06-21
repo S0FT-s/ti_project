@@ -336,22 +336,43 @@ date_default_timezone_set('Europe/Lisbon');
                                 <td><?php echo $nome_led ?></td>
                                 <td>
                                     <?php
-                                        if($valor_led == 1){
-                                            echo "LIGADO";
-                                        }else{
-                                            echo "DESLIGADO";
-                                        }  
+                                        echo $valor_led
                                     ?>
                                 </td>
                                 <td><?php echo $hora_led ?></td>
                                 <td>
-                                    <span class="badge rounded-pill bg-dark">
-                                        Desconhecido
+                                    <span class="badge rounded-pill <?php echo ($valor_led == 1) ? 'bg-success' : 'bg-danger'; ?>   ;?>">
+                                        <?php
+                                        if($valor_led == 1){
+                                            echo "Ligado";
+                                        }else{
+                                            echo "Desligado";
+                                        }  
+                                    ?>
                                     </span>
                                 </td>
                             </tr>
 
-
+                             <tr>
+                                <td><?php echo $nome_buzzer ?></td>
+                                <td>
+                                    <?php
+                                        echo $valor_buzzer
+                                    ?>
+                                </td>
+                                <td><?php echo $hora_buzzer ?></td>
+                                <td>
+                                    <span class="badge rounded-pill <?php echo ($valor_buzzer == 1) ? 'bg-success' : 'bg-danger'; ?>">
+                                        <?php
+                                        if($valor_led == 1){
+                                            echo "Ligado";
+                                        }else{
+                                            echo "Desligado";
+                                        }  
+                                    ?>
+                                    </span>
+                                </td>
+                            </tr>
 
 
                         </tbody>
