@@ -8,6 +8,7 @@
 #define DHTPIN 0 // Pin Digital onde está ligado o sensor
 #define DHTTYPE DHT11 // Tipo de sensor DHT
 #define BUZZER_PIN 1 // Pin Digital onde está ligado o buzzer (Mude se necessário)
+#define LED_PIN 2
 
 WiFiUDP clienteUDP;
 char NTP_SERVER[] = "ntp.ipleiria.pt";
@@ -147,6 +148,40 @@ void getBuzzerStatus() {
     Serial.print("Erro ao ler Buzzer. Status: ");
     Serial.println(responseStatusCode);
     digitalWrite(BUZZER_PIN, LOW); // Por segurança, desliga se falhar
+  }
+
+  clienteHTTP.stop(); 
+}
+// Nova função para ler o estado do LED (GET)
+void getLedStatus() {
+  // Caso a API precise de um parâmetro na URL para saber que queres o led, 
+  // podes mudar para "/ti/ti016/ti/api/api.php?sensor=led"
+  String URLPath = "/ti/ti016/ti/api/api.php?nome=led"; 
+
+  clienteHTTP.get(URLPath);
+
+  int responseStatusCode = clienteHTTP.responseStatusCode();
+  String responseBody = clienteHTTP.responseBody();
+
+  if (responseStatusCode == 200) {
+    Serial.println("Led status lido com sucesso!");
+    Serial.println("Resposta GET: " + responseBody);
+
+    // Remove espaços em branco ou quebras de linha invisíveis da resposta
+    responseBody.trim(); 
+
+    // Se a API responder exatamente "1" (ou se a resposta contiver "1")
+    if (responseBody == "1" || responseBody.indexOf("\"valor\":\"1\"") != -1) {
+      digitalWrite(LED_PIN, HIGH);
+      Serial.println("Led: LIGADO");
+    } else {
+      digitalWrite(LED_PIN, LOW);
+      Serial.println("Led: DESLIGADO");
+    }
+  } else {
+    Serial.print("Erro ao ler led. Status: ");
+    Serial.println(responseStatusCode);
+    digitalWrite(LED_PIN, LOW); // Por segurança, desliga se falhar
   }
 
   clienteHTTP.stop(); 
