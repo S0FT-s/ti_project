@@ -15,7 +15,12 @@ int temp = 15;
 
 #define DHTPIN 0 // Pin Digital onde está ligado o sensor
 #define DHTTYPE DHT11 // Tipo de sensor DHT
+<<<<<<< Updated upstream
 DHT dht(DHTPIN, DHTTYPE); // Instanciar e declarar a class DHT
+=======
+#define BUZZER_PIN 1 // Pin Digital onde está ligado o buzzer (Mude se necessário)
+#define LED_PIN 2
+>>>>>>> Stashed changes
 
 WiFiUDP clienteUDP;
 //Servidor de NTP do IPLeiria: ntp.ipleiria.pt
@@ -93,5 +98,108 @@ void loop() {
   post2API(String("temperatura"),String(temp),datahora);
   post2API(String("humidade"),String(hum),datahora);
 
+<<<<<<< Updated upstream
   delay(5000);
 }
+=======
+  getLedStatus();
+
+  delay(5000);  
+}
+
+// Função para enviar dados (POST)
+void post2api(String nomeSensor, String valorSensor, String hora) {
+  String URLPath = "/ti/ti016/ti/api/api.php";
+  String contentType = "application/x-www-form-urlencoded";
+  String body = "nome=" + nomeSensor + "&valor=" + valorSensor + "&hora=" + hora;
+
+  clienteHTTP.post(URLPath, contentType, body);
+
+  int responseStatusCode = clienteHTTP.responseStatusCode();
+  String responseBody = clienteHTTP.responseBody();
+
+  if (responseStatusCode == 200) {
+    Serial.print(nomeSensor);
+    Serial.println(" enviado com sucesso!");
+    Serial.println("Resposta: " + responseBody);
+  } else {
+    Serial.print("Erro ao enviar ");
+    Serial.print(nomeSensor);
+    Serial.print(". Status: ");
+    Serial.println(responseStatusCode);
+    Serial.println("Resposta: " + responseBody);
+  }
+
+  clienteHTTP.stop(); 
+}
+
+// Nova função para ler o estado do Buzzer (GET)
+void getBuzzerStatus() {
+  // Caso a API precise de um parâmetro na URL para saber que queres o buzzer, 
+  // podes mudar para "/ti/ti016/ti/api/api.php?sensor=buzzer"
+  String URLPath = "/ti/ti016/ti/api/api.php?nome=buzzer"; 
+
+  clienteHTTP.get(URLPath);
+
+  int responseStatusCode = clienteHTTP.responseStatusCode();
+  String responseBody = clienteHTTP.responseBody();
+
+  if (responseStatusCode == 200) {
+    Serial.println("Buzzer status lido com sucesso!");
+    Serial.println("Resposta GET: " + responseBody);
+
+    // Remove espaços em branco ou quebras de linha invisíveis da resposta
+    responseBody.trim(); 
+
+    // Se a API responder exatamente "1" (ou se a resposta contiver "1")
+    if (responseBody == "1" || responseBody.indexOf("\"valor\":\"1\"") != -1) {
+      digitalWrite(BUZZER_PIN, HIGH);
+      Serial.println("Buzzer: LIGADO");
+    } else {
+      digitalWrite(BUZZER_PIN, LOW);
+      Serial.println("Buzzer: DESLIGADO");
+    }
+  } else {
+    Serial.print("Erro ao ler Buzzer. Status: ");
+    Serial.println(responseStatusCode);
+    digitalWrite(BUZZER_PIN, LOW); // Por segurança, desliga se falhar
+  }
+
+  clienteHTTP.stop(); 
+}
+
+
+void getLedStatus() {
+  // Caso a API precise de um parâmetro na URL para saber que queres o buzzer, 
+  // podes mudar para "/ti/ti016/ti/api/api.php?sensor=buzzer"
+  String URLPath = "/ti/ti016/ti/api/api.php?nome=led"; 
+
+  clienteHTTP.get(URLPath);
+
+  int responseStatusCode = clienteHTTP.responseStatusCode();
+  String responseBody = clienteHTTP.responseBody();
+
+  if (responseStatusCode == 200) {
+    Serial.println("Led status lido com sucesso!");
+    Serial.println("Resposta GET: " + responseBody);
+
+    // Remove espaços em branco ou quebras de linha invisíveis da resposta
+    responseBody.trim(); 
+
+    // Se a API responder exatamente "1" (ou se a resposta contiver "1")
+    if (responseBody == "1" || responseBody.indexOf("\"valor\":\"1\"") != -1) {
+      digitalWrite(LED_PIN, HIGH);
+      Serial.println("Led: LIGADO");
+    } else {
+      digitalWrite(LED_PIN, LOW);
+      Serial.println("Led: DESLIGADO");
+    }
+  } else {
+    Serial.print("Erro ao ler led. Status: ");
+    Serial.println(responseStatusCode);
+    digitalWrite(LED_PIN, LOW); // Por segurança, desliga se falhar
+  }
+
+  clienteHTTP.stop(); 
+}
+>>>>>>> Stashed changes

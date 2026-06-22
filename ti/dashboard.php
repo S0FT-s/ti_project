@@ -21,7 +21,43 @@
   $log_led = file_get_contents("api/files/led/log.txt");
   $nome_led = file_get_contents("api/files/led/nome.txt");
 
+<<<<<<< Updated upstream
   ?>
+=======
+//variaveis
+$valor_temperatura = file_get_contents("api/files/temperatura/valor.txt");
+$hora_temperatura = file_get_contents("api/files/temperatura/hora.txt");
+$log_temperatura = file_get_contents("api/files/temperatura/log.txt");
+$nome_temperatura = file_get_contents("api/files/temperatura/nome.txt");
+
+$valor_humidade = file_get_contents("api/files/humidade/valor.txt");
+$hora_humidade = file_get_contents("api/files/humidade/hora.txt");
+$log_humidade = file_get_contents("api/files/humidade/log.txt");
+$nome_humidade = file_get_contents("api/files/humidade/nome.txt");
+
+$valor_led = file_get_contents("api/files/led/valor.txt");
+$hora_led = file_get_contents("api/files/led/hora.txt");
+$log_led = file_get_contents("api/files/led/log.txt");
+$nome_led = file_get_contents("api/files/led/nome.txt");
+
+$valor_ventoinha = file_get_contents("api/files/ventoinha/valor.txt");
+$hora_ventoinha = file_get_contents("api/files/ventoinha/hora.txt");
+$log_ventoinha = file_get_contents("api/files/ventoinha/log.txt");
+$nome_ventoinha = file_get_contents("api/files/ventoinha/nome.txt");
+
+$valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
+$hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
+$log_buzzer = file_get_contents("api/files/buzzer/log.txt");
+$nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
+
+$valor_alarme = file_get_contents("api/files/alarme/valor.txt");
+$hora_alarme = file_get_contents("api/files/alarme/hora.txt");
+$log_alarme = file_get_contents("api/files/alarme/log.txt");
+$nome_alarme = file_get_contents("api/files/alarme/nome.txt");
+date_default_timezone_set('Europe/Lisbon');
+
+?>
+>>>>>>> Stashed changes
 
 
 <!doctype html>
@@ -73,10 +109,17 @@
 
         <img width="300" src="images/estg.png" alt="Logo estg">
     </div>
-
+    
+    <!-- Esta parte é o que contem os cartões dos sensores e atuadores  -->
     <div class="container text-center">
+<<<<<<< Updated upstream
         <div class="row justify-content-center">
 
+=======
+        <div class="row justify-content-center g-4">
+            
+            <!-- Temperatura  -->
+>>>>>>> Stashed changes
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header sensor">
@@ -104,6 +147,7 @@
                 </div>
             </div>
 
+            <!-- Humidade  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header sensor">
@@ -130,7 +174,7 @@
                     </div>
                 </div>
             </div>
-
+            <!-- Luz  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -164,7 +208,140 @@
                     </div>
                 </div>
             </div>
+<<<<<<< Updated upstream
 
+=======
+            <!-- ventoinha  -->
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header atuador">
+                        <p class="text-center">
+                            <?php
+                                if($valor_ventoinha == 1){
+                                    echo "<strong>$nome_ventoinha: </strong> LIGADO";
+                                }else{
+                                    echo "<strong>$nome_ventoinha: </strong> DESLIGADO";
+                                } 
+                                
+                            ?>
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                        <?php 
+                        if($valor_ventoinha==1){
+                            echo "<img src='images/ventoinhaLigada.png' alt='ventoinha_on'>";
+                        }else{
+                            echo "<img src='images/ventoinhaDesligada.png' alt='ventoinha_off'>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="text-center">
+                            <strong>Atualização: </strong><?php echo $hora_ventoinha;  ?>
+                            <a href="historico.php?nome=<?php echo strtolower($nome_ventoinha)?>">Historico</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Campainha  -->
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header atuador">
+                        <p class="text-center">
+                            <?php
+                            
+                                if($valor_buzzer== 1){
+                                    echo "<strong>$nome_buzzer: </strong> LIGADO";
+                                }else{
+                                    echo "<strong>$nome_buzzer: </strong> DESLIGADO";
+                                } 
+                                
+                            ?>
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                        <?php 
+                        if($valor_buzzer==1){
+                            echo "<img src='' alt='buzzer_On'>";
+                        }else{
+                            echo "<img src='' alt='buzzer_Off'>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="text-center">
+                            <strong>Atualização: </strong><?php echo $hora_buzzer;  ?>
+                            <a href="historico.php?nome=<?php echo strtolower($nome_buzzer)?>">Historico</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- Alarme  -->
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header atuador">
+                        <p class="text-center">
+                           <?php echo "<strong>$nome_alarme</strong>";?>
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                        <?php 
+                        if($valor_alarme==1){
+                            echo "<img src='images/AlarmeLigado.png' alt='Alarme_Ligado'>";
+                        }else{
+                            echo "<img src='images/AlarmeDesligado' alt='Alarme_desligado'>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="text-center">
+                            <strong>Atualização: </strong><?php echo $hora_alarme;  ?>
+                            <a href="historico.php?nome=<?php echo strtolower($nome_alarme)?>">Historico</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <?php if($isAdmin || $isGestor): ?>
+                <div class="col-sm-3 mb-4">
+                    <div class="card">
+                        <div class="card-header controlo">
+                            <p class="text-center"><strong>Controlo</strong></p>
+                        </div>
+                        
+                        <div class="card-body justify-content-center">
+                            
+                            <form action="api/api.php" method="POST" class="mb-3">
+                                <input type="hidden" name="nome" value="led">
+                                <input type="hidden" name="valor" value="<?php echo ($valor_led == 1) ? '0' : '1'; ?>">
+                                <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
+
+                                <button type="submit" class="btn btn-success w-100">
+                                    <?php echo ($valor_led == 1) ? 'Desligar' : 'Ligar';?> luz
+                                </button>
+                            </form>
+
+                            <form action="api/api.php" method="POST">
+                                <input type="hidden" name="nome" value="ventoinha">
+                                <input type="hidden" name="valor" value="<?php echo ($valor_ventoinha == 1) ? '0' : '1'; ?>">
+                                <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
+
+                                <button type="submit" class="btn btn-success w-100">
+                                    <?php echo ($valor_ventoinha == 1) ? 'Desligar' : 'Ligar';?> ventoinha
+                                </button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+>>>>>>> Stashed changes
         </div>
         <br>
         <div class="col-sm-12">
