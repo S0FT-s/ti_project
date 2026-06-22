@@ -114,10 +114,10 @@ if (!$alarme_atual) $alarme_atual = 0;
                     <div class="card-body">
                         <form action="configuracao.php" method="POST">
                             <div class="mb-3">
-                                <label class="form-label">Estado do Alarme:</label>
+                                <label class="form-label">Estado do Alarme: <?php echo($alarme_atual == 1)? 'Armado' : 'Desarmado';?></label>
                                 <select name="estado_alarme" class="form-select">
-                                    <option value="1" <?php echo ($alarme_atual == '1') ? 'selected' : ''; ?>>Armado (Ativo)</option>
-                                    <option value="0" <?php echo ($alarme_atual == '0') ? 'selected' : ''; ?>>Desarmado (Inativo)</option>
+                                    <option value="1">Armado (Ativo)</option>
+                                    <option value="0">Desarmado (Inativo)</option>
                                 </select>
                             </div>
                             <button type="submit" class="btn btn-danger w-100">Atualizar Alarme</button>

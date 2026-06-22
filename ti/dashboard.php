@@ -38,6 +38,8 @@ $valor_alarme = file_get_contents("api/files/alarme/valor.txt");
 $hora_alarme = file_get_contents("api/files/alarme/hora.txt");
 $log_alarme = file_get_contents("api/files/alarme/log.txt");
 $nome_alarme = file_get_contents("api/files/alarme/nome.txt");
+$armado_alarme = file_get_contents("api/files/alarme/armado.txt");
+
 date_default_timezone_set('Europe/Lisbon');
 
 ?>
@@ -457,6 +459,27 @@ date_default_timezone_set('Europe/Lisbon');
                                             echo "Ligado";
                                         }else{
                                             echo "Desligado";
+                                        }  
+                                    ?>
+                                    </span>
+                                </td>
+                            </tr>
+
+                             <tr>
+                                <td><?php echo $nome_alarme ?></td>
+                                <td>
+                                    <?php
+                                        echo $valor_alarme
+                                    ?>
+                                </td>
+                                <td><?php echo $hora_alarme ?></td>
+                                <td>
+                                    <span class="badge rounded-pill <?php echo ($armado_alarme == 1) ? 'bg-success' : 'bg-danger'; ?>">
+                                        <?php
+                                        if($armado_alarme == 1){
+                                            echo "Armado";
+                                        }else{
+                                            echo "Desarmado";
                                         }  
                                     ?>
                                     </span>
