@@ -47,7 +47,15 @@ if (!$alarme_atual) $alarme_atual = 0;
 
     <link rel="stylesheet" href="dashboard.css">
 </head>
+<style>
+.card-header{
+    background-color: rgba(13, 110, 253, 0.4) !important; 
+}
 
+
+
+
+</style>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">

@@ -1,14 +1,75 @@
-.card-header.sensor{
-    background-color: #93baff;
+body {
+    background-image: url('images/login.webp'); 
+    background-size: cover;          
+    background-position: center;     
+    background-attachment: fixed;    
+    background-repeat: no-repeat;   
+    min-height: 100vh;               
 }
 
-.card-header.atuador{
-    background-color:#ffbf6c;
+
+/*faz o container ser ligeiramente mais escuro para facilitar a leitura*/
+.container {
+    background-color: rgba(0, 0, 0, 0.1); 
+    padding: 20px;
+    border-radius: 15px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-.AulaForm{
-    width: 350px;
-    padding: 15px;
+/*Cria butões com o efeito vidro moderno*/
+.card {
+    background-color: rgba(255, 255, 255, 0.7) !important;
+    
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); /* Para Safari */
+    
+    border: 1px solid rgba(255, 255, 255, 0.3) !important;
+    
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    
+    border-radius: 15px !important;
+    overflow: hidden; 
+}
+
+/*Configura os cartões para terem esse visual moderno e fixar as imagens*/
+/*Tivemos de usar o !important porque senão as coisas não funcionavam no meu computador*/
+.card-header, .card-footer {
+    background-color: rgba(0, 0, 0, 0.05) !important; 
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    border-top: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.card-header.sensor {
+    background-color: rgba(13, 110, 253, 0.2) !important; 
+}
+
+.card-header.atuador {
+    background-color: rgba(255, 193, 7, 0.2) !important; 
+    color: #000;
+}
+
+.card-header.controlo {
+    background-color: rgba(220, 53, 69, 0.2) !important; 
+    color: #000;
+}
+
+.card-body img {
+    max-width: 80px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3)); 
+}
+
+
+#title-header h1, #title-header h6 {
+    color: white;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+}
+
+.card.tabela{
+    background-color: rgba(255, 253, 253, 0.5) !important; 
+    color: #000;
 }
 
 

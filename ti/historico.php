@@ -30,6 +30,8 @@ if(isset($_GET['nome'])){
     <title>Histórico IoT</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
           <a class="navbar-brand" href="dashboard.php">Dashboard EI-TI</a>
@@ -57,10 +59,6 @@ if(isset($_GET['nome'])){
         </div>
       </nav>
     <style>
-        body {
-            background: #f4f6f9;
-        }
-
         .card {
             border: 0;
             border-radius: 12px;
@@ -68,8 +66,8 @@ if(isset($_GET['nome'])){
         }
 
         .header-box {
-            background: #0d6efd;
-            color: white;
+            background-color: rgba(13, 110, 253, 0.2);
+            color: black;
             padding: 12px;
             border-radius: 12px 12px 0 0;
             font-weight: bold;

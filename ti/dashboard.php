@@ -372,7 +372,7 @@ date_default_timezone_set('Europe/Lisbon');
         </div>
         <br>
         <div class="col-sm-12">
-            <div class="card">
+            <div class="card tabela">
                 <div class="card-header">
                     <th>Tabela de Sensores & Atuadores</th>
                 </div>
