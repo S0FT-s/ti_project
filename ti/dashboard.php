@@ -245,13 +245,58 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
 
                     <div class="card-body">
-                        <?php 
-                        if($valor_buzzer==1){
-                            echo "<img src='' alt='Buzzer_on'>";
-                        }else{
-                            echo "<img src='' alt='Buzzer_off'>";
-                        }
-                        ?>
+                        <?php if($valor_buzzer== 0): ?>
+                            <img src="images/camera-off.png" alt="Câmera Desligada" style="max-width: 100px; opacity: 0.5;">
+                        <?php else: ?>
+                            <video id="video-campainha" width="100%" autoplay playsinline></video>
+                            
+                            <canvas id="canvas-foto" style="display:none;"></canvas>
+                            
+                            <img id="foto-tirada" width="100%" style="display:none; border: 3px solid red;" />
+                            
+                            <p id="status-cam" class="text-danger mt-2 fw-bold">Campainha tocou! A capturar...</p>
+
+                            <script>
+                                
+                                const video = document.getElementById('video-campainha');
+                                const canvas = document.getElementById('canvas-foto');
+                                const foto = document.getElementById('foto-tirada');
+                                const status = document.getElementById('status-cam');
+
+                                // Permisão para usar a camera
+                                navigator.mediaDevices.getUserMedia({ video: true })
+                                    .then(stream => {
+                                        video.srcObject = stream;
+                                        
+                                        // Espera a camera focar
+                                        setTimeout(() => {
+                                            // recolhe as caracteristicas da camera
+                                            canvas.width = video.videoWidth;
+                                            canvas.height = video.videoHeight;
+                                            
+                                            // desenha a foto
+                                            canvas.getContext('2d').drawImage(video, 0, 0);
+                                            
+                                            // converte para uma imagem vissivel
+                                            foto.src = canvas.toDataURL('image/png');
+                                            
+                                            // evita mostrar o video usa apenas a foto
+                                            video.style.display = 'none';
+                                            foto.style.display = 'block';
+                                            status.innerText = '📸 Foto Capturada!';
+                                            
+                                            // desliga a camera
+                                            stream.getTracks().forEach(track => track.stop());
+                                            
+                                        }, 1500); 
+                                    })
+                                    .catch(err => {
+                                        console.error("Erro na câmera:", err);
+                                        status.innerText = "Erro: Câmera sem permissão ou inexistente.";
+                                    });
+                            </script>
+
+                        <?php endif; ?>
                     </div>
 
                     <div class="card-footer">
@@ -290,6 +335,7 @@ date_default_timezone_set('Europe/Lisbon');
                 </div>
             </div>
 
+            <!-- Zona de controlo apenas admin e gestor  -->
             <?php if($isAdmin || $isGestor): ?>
                 <div class="col-sm-3 mb-4">
                     <div class="card">
