@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 $temp_alvo_atual = file_get_contents("api/files/ventoinha/tempAlvo.txt");
-$alarme_atual = file_get_contents("api/files/buzzer/alarme.txt");
+$alarme_atual = file_get_contents("api/files/alarme/armado.txt");
 
 //valores default
 if (!$temp_alvo_atual) $temp_alvo_atual = 25; 
@@ -51,9 +51,6 @@ if (!$alarme_atual) $alarme_atual = 0;
 .card-header{
     background-color: rgba(13, 110, 253, 0.4) !important; 
 }
-
-
-
 
 </style>
 <body>
