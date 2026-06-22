@@ -29,10 +29,10 @@ $hora_ventoinha = file_get_contents("api/files/ventoinha/hora.txt");
 $log_ventoinha = file_get_contents("api/files/ventoinha/log.txt");
 $nome_ventoinha = file_get_contents("api/files/ventoinha/nome.txt");
 
-$valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
-$hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
-$log_buzzer = file_get_contents("api/files/buzzer/log.txt");
-$nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
+$valor_buzzer = file_get_contents("api/files/campainha/valor.txt");
+$hora_buzzer = file_get_contents("api/files/campainha/hora.txt");
+$log_buzzer = file_get_contents("api/files/campainha/log.txt");
+$nome_buzzer = file_get_contents("api/files/campainha/nome.txt");
 
 $valor_alarme = file_get_contents("api/files/alarme/valor.txt");
 $hora_alarme = file_get_contents("api/files/alarme/hora.txt");
@@ -308,20 +308,28 @@ date_default_timezone_set('Europe/Lisbon');
                 </div>
             </div>
             <!-- Alarme  -->
+            <!-- ventoinha  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
                         <p class="text-center">
-                           <?php echo "<strong>$nome_alarme</strong>";?>
+                            <?php
+                                if($valor_ventoinha == 1){
+                                    echo "<strong>$nome_alarme: </strong> LIGADO";
+                                }else{
+                                    echo "<strong>$nome_alarme: </strong> DESLIGADO";
+                                } 
+                                
+                            ?>
                         </p>
                     </div>
 
                     <div class="card-body">
                         <?php 
-                        if($valor_alarme==1){
-                            echo "<img src='images/AlarmeLigado.png' alt='Alarme_Ligado'>";
+                        if($valor_ventoinha==1){
+                            echo "<img src='images/AlarmeLigado.png' alt='alarme_on'>";
                         }else{
-                            echo "<img src='images/AlarmeDesligado' alt='Alarme_desligado'>";
+                            echo "<img src='images/AlarmeDesligado.png' alt='alarme_off'>";
                         }
                         ?>
                     </div>
