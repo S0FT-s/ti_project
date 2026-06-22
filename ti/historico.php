@@ -1,6 +1,8 @@
 <?php
 //verifica se fez login
 session_start();
+
+
 if(!isset($_SESSION['username'])){
     header("refresh:5;url=index.php");
     exit("Acesso Restrito");
@@ -8,6 +10,7 @@ if(!isset($_SESSION['username'])){
 
 //verifica se é gestor ou admin
 $user = $_SESSION['username'];
+$isAdmin = ($user === 'admin');
 if($user !== 'gestor' && $user !== 'admin'){
     // Bloqueia a execução da página e mostra uma mensagem de erro
     die("Erro 403: Acesso Negado. Esta página é exclusiva para a Gestão.");
@@ -41,6 +44,11 @@ if(isset($_GET['nome'])){
               <li class="nav-item">
                 <a class="nav-link" href="historico.php">Historico</a>
               </li>
+              <?php if($isAdmin):?>
+                <li class="nav-item">
+                    <a class="nav-link" href="configuracao.php">Configuração</a>
+                </li>
+              <?php endif; ?>
             </ul>
             <form action="logout.php" class="d-flex" method="POST">
               <button class="btn btn-outline-secondary" type="submit">Logout</button>

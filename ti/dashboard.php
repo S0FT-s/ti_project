@@ -33,6 +33,11 @@ $valor_buzzer = file_get_contents("api/files/buzzer/valor.txt");
 $hora_buzzer = file_get_contents("api/files/buzzer/hora.txt");
 $log_buzzer = file_get_contents("api/files/buzzer/log.txt");
 $nome_buzzer = file_get_contents("api/files/buzzer/nome.txt");
+
+$valor_alarme = file_get_contents("api/files/alarme/valor.txt");
+$hora_alarme = file_get_contents("api/files/alarme/hora.txt");
+$log_alarme = file_get_contents("api/files/alarme/log.txt");
+$nome_alarme = file_get_contents("api/files/alarme/nome.txt");
 date_default_timezone_set('Europe/Lisbon');
 
 ?>
@@ -94,10 +99,12 @@ date_default_timezone_set('Europe/Lisbon');
 
         <img width="300" src="images/estg.png" alt="Logo estg">
     </div>
-
+    
+    <!-- Esta parte é o que contem os cartões dos sensores e atuadores  -->
     <div class="container text-center">
         <div class="row justify-content-center g-4">
-
+            
+            <!-- Temperatura  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header sensor">
@@ -125,6 +132,7 @@ date_default_timezone_set('Europe/Lisbon');
                 </div>
             </div>
 
+            <!-- Humidade  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header sensor">
@@ -151,7 +159,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-
+            <!-- Luz  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -185,7 +193,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-
+            <!-- ventoinha  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -219,7 +227,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-
+            <!-- Campainha  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -254,7 +262,34 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-            
+            <!-- Alarme  -->
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-header atuador">
+                        <p class="text-center">
+                           <?php echo "<strong>$nome_alarme</strong>";?>
+                        </p>
+                    </div>
+
+                    <div class="card-body">
+                        <?php 
+                        if($valor_alarme==1){
+                            echo "<img src='images/AlarmeLigado.png' alt='Alarme_Ligado'>";
+                        }else{
+                            echo "<img src='images/AlarmeDesligado' alt='Alarme_desligado'>";
+                        }
+                        ?>
+                    </div>
+
+                    <div class="card-footer">
+                        <p class="text-center">
+                            <strong>Atualização: </strong><?php echo $hora_alarme;  ?>
+                            <a href="historico.php?nome=<?php echo strtolower($nome_alarme)?>">Historico</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <?php if($isAdmin || $isGestor): ?>
                 <div class="col-sm-3 mb-4">
                     <div class="card">
