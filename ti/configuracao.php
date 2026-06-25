@@ -14,11 +14,11 @@ if($user !== 'admin'){
 //Processa o post
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['temp_alvo'])) {
-        file_put_contents("api/files/ventoinha/tempAlvo.txt", $_POST['temp_alvo']);
+        file_put_contents("api/files/tAlvo/valor.txt", $_POST['temp_alvo']);
     }
     
     if (isset($_POST['estado_alarme'])) {
-        file_put_contents("api/files/alarme/armado.txt", $_POST['estado_alarme']);
+        file_put_contents("api/files/gatilho_alarme/valor.txt", $_POST['estado_alarme']);
     }
     
     header("Location: configuracao.php");
@@ -26,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-$temp_alvo_atual = file_get_contents("api/files/ventoinha/tempAlvo.txt");
-$alarme_atual = file_get_contents("api/files/alarme/armado.txt");
+$temp_alvo_atual = file_get_contents("api/files/tAlvo/valor.txt");
+$alarme_atual = file_get_contents("api/files/gatilho_alarme/valor.txt");
 
 //valores default
 if (!$temp_alvo_atual) $temp_alvo_atual = 25; 
