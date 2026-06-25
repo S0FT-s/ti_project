@@ -46,13 +46,14 @@ if (!$alarme_atual) $alarme_atual = 0;
         crossorigin="anonymous">
 
     <link rel="stylesheet" href="dashboard.css">
+    
+    <style>
+    .card-header{
+        background-color: rgba(13, 110, 253, 0.4) !important; 
+    }
+    </style>
 </head>
-<style>
-.card-header{
-    background-color: rgba(13, 110, 253, 0.4) !important; 
-}
 
-</style>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -80,7 +81,7 @@ if (!$alarme_atual) $alarme_atual = 0;
     </nav>
     
     <div class="container mt-4 mb-4 text-center">
-        <h2>Painel de Configurações</h2>
+        <p class="h2">Painel de Configurações</p>
         <p class="text-muted">Apenas o Administrador pode alterar estes valores.</p>
     </div>
 

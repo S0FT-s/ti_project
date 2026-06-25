@@ -114,7 +114,7 @@ date_default_timezone_set('Europe/Lisbon');
     <div class="container d-flex justify-content-around align-items-center">
         <div id="title-header">
             <h1>Servidor IoT</h1>
-            <h6>user: <?php echo $_SESSION['username']?></h6>
+            <p class="h6">user: <?php echo $_SESSION['username']?></p>
         </div>
 
         <img width="300" src="images/estg.png" alt="Logo estg">
@@ -268,11 +268,11 @@ date_default_timezone_set('Europe/Lisbon');
                         <?php if($valor_buzzer== 0): ?>
                             <img src="images/camera-off.png" alt="Câmera Desligada" style="max-width: 100px; opacity: 0.5;">
                         <?php else: ?>
-                            <video id="video-campainha" width="100%" autoplay playsinline></video>
+                            <video id="video-campainha" autoplay playsinline style="width: 100%;"></video>
                             
                             <canvas id="canvas-foto" style="display:none;"></canvas>
                             
-                            <img id="foto-tirada" width="100%" style="display:none; border: 3px solid red;" />
+                            <img src="#" id="foto-tirada" alt="Foto da campainha" style="display:none; width:100%;  border: 3px solid red;" >
                             
                             <p id="status-cam" class="text-danger mt-2 fw-bold">Campainha tocou! A capturar...</p>
 
@@ -373,7 +373,7 @@ date_default_timezone_set('Europe/Lisbon');
         <div class="col-sm-12">
             <div class="card tabela">
                 <div class="card-header">
-                    <th>Tabela de Sensores & Atuadores</th>
+                    Tabela de Sensores & Atuadores
                 </div>
 
                 <div class="card-body">

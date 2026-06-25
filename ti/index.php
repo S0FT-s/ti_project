@@ -35,9 +35,33 @@ if (isset($_POST['username'], $_POST['password'])) {
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Login ESTG</title> 
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
-</head>
+    
+    <style>
+        body {
+          background-image: url("images/login.webp");
+          background-size: cover;       
+          background-position: center;  
+          background-attachment: fixed; 
+          margin: 0;                    
+        } 
+        .AulaForm {
+          background-color: rgba(255, 255, 255, 0.85); 
+          padding: 40px; 
+          border-radius: 15px; 
+          
+          width: 100%;
+          max-width: 450px;
+          
+          box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+    </style>
+  </head>
+  
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     
@@ -62,27 +86,5 @@ if (isset($_POST['username'], $_POST['password'])) {
             <button type="submit" class="btn btn-primary w-100">Submit</button>
         </form>
     </div>
-</body>
-
-<style>
-body {
-  background-image: url("images/login.webp");
-  background-size: cover;       
-  background-position: center;  
-  background-attachment: fixed; 
-  margin: 0;                    
-} 
-.AulaForm {
-  background-color: rgba(255, 255, 255, 0.85); 
-  padding: 40px; 
-  border-radius: 15px; 
-  
-  /* ALTERADO: Define um tamanho fixo máximo para o card não esticar na horizontal */
-  width: 100%;
-  max-width: 450px;
-  
-  /* Extra: Uma sombra suave para dar profundidade sobre o fundo */
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-}
-</style>
+  </body>
 </html>

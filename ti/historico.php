@@ -2,7 +2,6 @@
 //verifica se fez login
 session_start();
 
-
 if(!isset($_SESSION['username'])){
     header("refresh:5;url=index.php");
     exit("Acesso Restrito");
@@ -32,32 +31,6 @@ if(isset($_GET['nome'])){
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
 
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="dashboard.php">Dashboard EI-TI</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarScroll">
-            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="dashboard.php">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="historico.php">Historico</a>
-              </li>
-              <?php if($isAdmin):?>
-                <li class="nav-item">
-                    <a class="nav-link" href="configuracao.php">Configuração</a>
-                </li>
-              <?php endif; ?>
-            </ul>
-            <form action="logout.php" class="d-flex" method="POST">
-              <button class="btn btn-outline-secondary" type="submit">Logout</button>
-            </form>
-          </div>
-        </div>
-      </nav>
     <style>
         .card {
             border: 0;
@@ -84,6 +57,33 @@ if(isset($_GET['nome'])){
 </head>
 
 <body>
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="dashboard.php">Dashboard EI-TI</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarScroll">
+            <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="dashboard.php">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="historico.php">Historico</a>
+              </li>
+              <?php if($isAdmin):?>
+                <li class="nav-item">
+                    <a class="nav-link" href="configuracao.php">Configuração</a>
+                </li>
+              <?php endif; ?>
+            </ul>
+            <form action="logout.php" class="d-flex" method="POST">
+              <button class="btn btn-outline-secondary" type="submit">Logout</button>
+            </form>
+          </div>
+        </div>
+    </nav>
 
 <div class="container mt-4">
 
@@ -137,7 +137,7 @@ if(isset($_GET['nome'])){
     <?php } ?>
 
 <?php else: ?>
-    <h3 class="mb-4"><strong>Histórico Geral</strong></h3>
+    <h1 class="h3 mb-4"><strong>Histórico Geral</strong></h1>
 
     <?php
         $base = "api/files/";
@@ -165,7 +165,6 @@ if(isset($_GET['nome'])){
 
             <div class="card h-100">
 
-                <!-- HEADER -->
                 <div class="header-box d-flex justify-content-between align-items-center py-2">
                     <span><?php echo strtoupper($sensor);  ?></span>
 
@@ -175,7 +174,6 @@ if(isset($_GET['nome'])){
                     </a>
                 </div>
 
-                <!-- BODY -->
                 <div class="card-body p-2">
 
                     <table class="table table-sm table-hover mb-0">
