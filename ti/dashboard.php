@@ -38,8 +38,26 @@ $valor_alarme = file_get_contents("api/files/alarme/valor.txt");
 $hora_alarme = file_get_contents("api/files/alarme/hora.txt");
 $log_alarme = file_get_contents("api/files/alarme/log.txt");
 $nome_alarme = file_get_contents("api/files/alarme/nome.txt");
-$armado_alarme = file_get_contents("api/files/alarme/armado.txt");
+$armado_alarme = file_get_contents("api/files/gatilho_alarme/valor.txt");
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['valor'], $_POST['hora'])) {
+    $nome = $_POST['nome'];
+    $valor = $_POST['valor'];
+    $hora = $_POST['hora'];
+    
+    // Segurança: só deixa mexer no led ou ventoinha por aqui
+    if ($nome === 'led' || $nome === 'ventoinha') {
+        $dir = "api/files/" . $nome;
+        
+        // Atualiza valor e hora
+        file_put_contents("$dir/valor.txt", $valor);
+        file_put_contents("$dir/hora.txt", $hora);
+        
+        // Bónus: Atualiza também o log.txt para o teu histórico!
+        $log = $hora . ";" . $valor . PHP_EOL;
+        file_put_contents("$dir/log.txt", $log, FILE_APPEND);
+    }
+}
 date_default_timezone_set('Europe/Lisbon');
 
 ?>
@@ -259,38 +277,18 @@ date_default_timezone_set('Europe/Lisbon');
                             <p id="status-cam" class="text-danger mt-2 fw-bold">Campainha tocou! A capturar...</p>
 
                             <script>
-                                
+                                // Apanha apenas o vídeo e o texto de estado
                                 const video = document.getElementById('video-campainha');
-                                const canvas = document.getElementById('canvas-foto');
-                                const foto = document.getElementById('foto-tirada');
                                 const status = document.getElementById('status-cam');
 
-                                // Permisão para usar a camera
+                                // Permissão para usar a câmara
                                 navigator.mediaDevices.getUserMedia({ video: true })
                                     .then(stream => {
+                                        //Envia a imagem da câmara diretamente para o leitor de vídeo no ecrã
                                         video.srcObject = stream;
                                         
-                                        // Espera a camera focar
-                                        setTimeout(() => {
-                                            // recolhe as caracteristicas da camera
-                                            canvas.width = video.videoWidth;
-                                            canvas.height = video.videoHeight;
-                                            
-                                            // desenha a foto
-                                            canvas.getContext('2d').drawImage(video, 0, 0);
-                                            
-                                            // converte para uma imagem vissivel
-                                            foto.src = canvas.toDataURL('image/png');
-                                            
-                                            // evita mostrar o video usa apenas a foto
-                                            video.style.display = 'none';
-                                            foto.style.display = 'block';
-                                            status.innerText = '📸 Foto Capturada!';
-                                            
-                                            // desliga a camera
-                                            stream.getTracks().forEach(track => track.stop());
-                                            
-                                        }, 1500); 
+                                        //Atualiza o texto para mostrar que está a gravar
+                                        status.innerText = 'Camera Ligada';
                                     })
                                     .catch(err => {
                                         console.error("Erro na câmera:", err);
@@ -347,37 +345,28 @@ date_default_timezone_set('Europe/Lisbon');
 
             <!-- Zona de controlo apenas admin e gestor  -->
             <?php if($isAdmin || $isGestor): ?>
-                <div class="col-sm-3 mb-4">
-                    <div class="card">
-                        <div class="card-header controlo">
-                            <p class="text-center"><strong>Controlo</strong></p>
-                        </div>
-                        
-                        <div class="card-body justify-content-center">
-                            
-                            <form action="api/api.php" method="POST" class="mb-3">
-                                <input type="hidden" name="nome" value="led">
-                                <input type="hidden" name="valor" value="<?php echo ($valor_led == 1) ? '0' : '1'; ?>">
-                                <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
+            <div class="card-body justify-content-center">
+                <form action="dashboard.php" method="POST" class="mb-3" onsubmit="MudarEstado(event, this)">
+                    <input type="hidden" name="nome" value="led">
+                    <input type="hidden" name="valor" value="<?php echo ($valor_led == 1) ? '0' : '1'; ?>">
+                    <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
 
-                                <button type="submit" class="btn btn-success w-100">
-                                    <?php echo ($valor_led == 1) ? 'Desligar' : 'Ligar';?> luz
-                                </button>
-                            </form>
+                    <button type="submit" class="btn <?php echo ($valor_led == 1) ? 'btn-danger' : 'btn-success'; ?> w-100">
+                        <?php echo ($valor_led == 1) ? 'Desligar' : 'Ligar';?> luz
+                    </button>
+                </form>
 
-                            <form action="api/api.php" method="POST">
-                                <input type="hidden" name="nome" value="ventoinha">
-                                <input type="hidden" name="valor" value="<?php echo ($valor_ventoinha == 1) ? '0' : '1'; ?>">
-                                <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
+                <form action="dashboard.php" method="POST" onsubmit="MudarEstado(event, this)">
+                    <input type="hidden" name="nome" value="ventoinha">
+                    <input type="hidden" name="valor" value="<?php echo ($valor_ventoinha == 1) ? '0' : '1'; ?>">
+                    <input type="hidden" name="hora" value="<?php echo date('Y-m-d H:i:s'); ?>">
 
-                                <button type="submit" class="btn btn-success w-100">
-                                    <?php echo ($valor_ventoinha == 1) ? 'Desligar' : 'Ligar';?> ventoinha
-                                </button>
-                            </form>
+                    <button type="submit" class="btn <?php echo ($valor_ventoinha == 1) ? 'btn-danger' : 'btn-success'; ?> w-100">
+                        <?php echo ($valor_ventoinha == 1) ? 'Desligar' : 'Ligar';?> ventoinha
+                    </button>
+                </form>
 
-                        </div>
-                    </div>
-                </div>
+            </div>
             <?php endif; ?>
         </div>
         <br>
@@ -400,7 +389,6 @@ date_default_timezone_set('Europe/Lisbon');
                         </thead>
 
                         <tbody>
-
                             <tr>
                                 <td><?php echo $nome_temperatura ?></td>
                                 <td><?php echo $valor_temperatura ?>°C</td>
@@ -497,5 +485,34 @@ date_default_timezone_set('Europe/Lisbon');
 
     </div>
 
+<script>
+function MudarEstado(evento, formulario) {
+    //Trava o reload da página
+    evento.preventDefault();
+
+    //Prepara a encomenda
+    let dados = new FormData(formulario);
+    let botao = formulario.querySelector('button');
+
+    //Feedback visual imediato
+    botao.innerHTML = "A enviar";
+
+    //Envia para o topo do próprio dashboard.php
+    fetch(formulario.action, {
+        method: 'POST',
+        body: dados
+    })
+    .then(resposta => resposta.text())
+    .then(texto => {
+        if (texto === "Sucesso") {
+            botao.innerHTML = "Feito!";
+        }
+    })
+    .catch(erro => {
+        console.error("Erro:", erro);
+        botao.innerHTML = "Erro";
+    });
+}
+</script>
 </body>
 </html>
