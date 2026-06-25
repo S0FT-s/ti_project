@@ -485,6 +485,27 @@ date_default_timezone_set('Europe/Lisbon');
                                     </span>
                                 </td>
                             </tr>
+                        
+                            <tr>
+                                <td><?php echo $nome_ventoinha ?></td>
+                                <td>
+                                    <?php
+                                        echo $valor_ventoinha
+                                    ?>
+                                </td>
+                                <td><?php echo $hora_ventoinha ?></td>
+                                <td>
+                                    <span class="badge rounded-pill <?php echo ($valor_ventoinha == 1) ? 'bg-success' : 'bg-danger'; ?>">
+                                        <?php
+                                        if($valor_led == 1){
+                                            echo "Ligado";
+                                        }else{
+                                            echo "Desligado";
+                                        }  
+                                    ?>
+                                    </span>
+                                </td>
+                            </tr>
 
 
                         </tbody>
