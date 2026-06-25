@@ -40,26 +40,27 @@ if (isset($_POST['username'], $_POST['password'])) {
 </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    <div class="container">
-        <div class="row justify-content-center">
-            <form class="AulaForm" method="post">
-                <a href="index.php"><img src="images/estg_h.png" alt="logo estg"></a>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username:</label>
-                    <input name="username" type="text" class="form-control <?php if($erro_login) { echo 'is-invalid'; } ?>" id="username" placeholder="Insira o seu username" required>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password:</label>
-                    <input name="password" type="password" class="form-control <?php if($erro_login) { echo 'is-invalid'; } ?>" id="password" placeholder="Insira a sua password" required>
-                    <?php if($erro_login): ?>
-                      <div class="invalid-feedback">
-                        Username ou password incorretos.
-                      </div>
-                    <?php endif; ?>
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
+    
+    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+        <form class="AulaForm" method="post">
+            <div class="text-center mb-4">
+                <a href="index.php"><img src="images/estg_h.png" alt="logo estg" class="img-fluid"></a>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">Username:</label>
+                <input name="username" type="text" class="form-control <?php if($erro_login) { echo 'is-invalid'; } ?>" id="username" placeholder="Insira o seu username" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password:</label>
+                <input name="password" type="password" class="form-control <?php if($erro_login) { echo 'is-invalid'; } ?>" id="password" placeholder="Insira a sua password" required>
+                <?php if($erro_login): ?>
+                  <div class="invalid-feedback">
+                    Username ou password incorretos.
+                  </div>
+                <?php endif; ?>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
+        </form>
     </div>
 </body>
 
@@ -72,9 +73,16 @@ body {
   margin: 0;                    
 } 
 .AulaForm {
-  background-color: rgba(255, 255, 255, 0.8); 
-  padding: 30px; 
-  border-radius: 10px; 
+  background-color: rgba(255, 255, 255, 0.85); 
+  padding: 40px; 
+  border-radius: 15px; 
+  
+  /* ALTERADO: Define um tamanho fixo máximo para o card não esticar na horizontal */
+  width: 100%;
+  max-width: 450px;
+  
+  /* Extra: Uma sombra suave para dar profundidade sobre o fundo */
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
 }
 </style>
 </html>
