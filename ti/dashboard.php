@@ -1,14 +1,24 @@
 <?php 
+// Inicia a sessão para permitir o acesso aos dados do utilizador
 session_start();
+
+// Verifica se a variável de sessão 'username' não existe, o que significa que o utilizador não está logado
 if(!isset($_SESSION['username'])){
+    // Redireciona o utilizador de volta para a página de login após 5 segundos
     header("refresh:5;url=index.php");
+    // Interrompe a execução do resto do código e mostra uma mensagem de erro
     exit("Acesso Restrito");
 }
+
+// Guarda o nome do utilizador logado numa variável
 $user = $_SESSION['username'];
+
+// Cria variáveis booleanas (verdadeiro/falso) para verificar facilmente o tipo de permissões do utilizador
 $isAdmin = ($user === 'admin');
 $isGestor = ($user === 'gestor');
 
-//variaveis
+// Variaveis
+
 $valor_temperatura = file_get_contents("api/files/temperatura/valor.txt");
 $hora_temperatura = file_get_contents("api/files/temperatura/hora.txt");
 $log_temperatura = file_get_contents("api/files/temperatura/log.txt");
@@ -40,24 +50,30 @@ $log_alarme = file_get_contents("api/files/alarme/log.txt");
 $nome_alarme = file_get_contents("api/files/alarme/nome.txt");
 $armado_alarme = file_get_contents("api/files/gatilho_alarme/valor.txt");
 
+// Verifica se a página recebeu um pedido do tipo POST e se os campos nome, valor e hora foram enviados
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['nome'], $_POST['valor'], $_POST['hora'])) {
+    // Guarda os dados recebidos do formulário em variáveis
     $nome = $_POST['nome'];
     $valor = $_POST['valor'];
     $hora = $_POST['hora'];
     
-    // Segurança: só deixa mexer no led ou ventoinha por aqui
+    // Regra de segurança: garante que o utilizador apenas consegue alterar os estados do 'led' ou da 'ventoinha' através deste bloco
     if ($nome === 'led' || $nome === 'ventoinha') {
+        // Define o caminho para a pasta do atuador específico
         $dir = "api/files/" . $nome;
         
-        // Atualiza valor e hora
+        // Sobrescreve os ficheiros valor.txt e hora.txt com os novos dados
         file_put_contents("$dir/valor.txt", $valor);
         file_put_contents("$dir/hora.txt", $hora);
         
-        // Bónus: Atualiza também o log.txt para o teu histórico!
+        // Formata a string de registo separando a hora e o valor com um ponto e vírgula, e adiciona uma quebra de linha no fim
         $log = $hora . ";" . $valor . PHP_EOL;
+        // Adiciona a nova string ao ficheiro log.txt sem apagar o conteúdo que já lá estava (FILE_APPEND)
         file_put_contents("$dir/log.txt", $log, FILE_APPEND);
     }
 }
+
+// Define o fuso horário padrão do PHP para Portugal, garantindo que as horas registadas estão corretas
 date_default_timezone_set('Europe/Lisbon');
 
 ?>
@@ -68,7 +84,9 @@ date_default_timezone_set('Europe/Lisbon');
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <meta http-equiv="refresh" content="5">
+    
     <title>Plataforma IOT</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -90,17 +108,20 @@ date_default_timezone_set('Europe/Lisbon');
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="dashboard.php">Home</a>
               </li>
+              <!-- Verifica se é admin ou getor para mostrar a pagina historico na navbar -->
               <?php if($isAdmin || $isGestor): ?>
                 <li class="nav-item">
                     <a class="nav-link" href="historico.php">Historico</a>
                 </li>
               <?php endif; ?>
+              <!-- Verifica se é admin para mostrar a pagina de configurações na navbar -->
               <?php if($isAdmin):?>
                 <li class="nav-item">
                     <a class="nav-link" href="configuracao.php">Configuração</a>
                 </li>
               <?php endif; ?>
             </ul>
+            
             <form action="logout.php" class="d-flex" method="POST">
               <button class="btn btn-outline-secondary" type="submit">Logout</button>
             </form>
@@ -108,23 +129,19 @@ date_default_timezone_set('Europe/Lisbon');
         </div>
     </nav>
     
-
-
-
     <div class="container d-flex justify-content-around align-items-center">
         <div id="title-header">
             <h1>Servidor IoT</h1>
+            <!-- Escreve o nome do usario de sessão  -->
             <p class="h6">user: <?php echo $_SESSION['username']?></p>
         </div>
 
         <img width="300" src="images/estg.png" alt="Logo estg">
     </div>
     
-    <!-- Esta parte é o que contem os cartões dos sensores e atuadores  -->
     <div class="container text-center">
         <div class="row justify-content-center g-4">
             
-            <!-- Temperatura  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header sensor">
@@ -134,7 +151,8 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
 
                     <div class="card-body">
-                       <?php 
+                       <?php
+                        // Verifica se a temperatura lida do ficheiro é maior que 32 para mudar a imagem  
                         if($valor_temperatura>32){
                             echo "<img src='images/temperature-high.png' alt='temperature-high'>";
                         }else{
@@ -146,13 +164,13 @@ date_default_timezone_set('Europe/Lisbon');
                     <div class="card-footer">
                         <p class="text-center">
                             <strong>Atualização: </strong><?php echo $hora_temperatura;  ?>
+                            <!-- Coloca o nome lido do ficheiro em letras muidas para que o historico reconheça -->
                             <a href="historico.php?nome=<?php echo strtolower($nome_temperatura)?>">Historico</a>
                         </p>
                     </div>
                 </div>
             </div>
 
-            <!-- Humidade  -->
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header sensor">
@@ -179,7 +197,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-            <!-- Luz  -->
+            
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -213,7 +231,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-            <!-- ventoinha  -->
+            
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -247,7 +265,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-            <!-- Campainha  -->
+            
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -277,20 +295,21 @@ date_default_timezone_set('Europe/Lisbon');
                             <p id="status-cam" class="text-danger mt-2 fw-bold">Campainha tocou! A capturar...</p>
 
                             <script>
-                                // Apanha apenas o vídeo e o texto de estado
+                                // Guarda a referência do elemento de vídeo e do parágrafo de estado do HTML
                                 const video = document.getElementById('video-campainha');
                                 const status = document.getElementById('status-cam');
 
-                                // Permissão para usar a câmara
+                                // Invoca a API de dispositivos do navegador para solicitar o uso da câmara de vídeo
                                 navigator.mediaDevices.getUserMedia({ video: true })
                                     .then(stream => {
-                                        //Envia a imagem da câmara diretamente para o leitor de vídeo no ecrã
+                                        // Em caso de sucesso (permissão concedida), liga a transmissão (stream) ao elemento de vídeo
                                         video.srcObject = stream;
                                         
-                                        //Atualiza o texto para mostrar que está a gravar
+                                        // Atualiza o texto na interface para indicar sucesso
                                         status.innerText = 'Camera Ligada';
                                     })
                                     .catch(err => {
+                                        // Em caso de falha (bloqueio de permissão ou falta de câmara), regista no console e informa o utilizador
                                         console.error("Erro na câmera:", err);
                                         status.innerText = "Erro: Câmera sem permissão ou inexistente.";
                                     });
@@ -307,8 +326,7 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-            <!-- Alarme  -->
-            <!-- ventoinha  -->
+            
             <div class="col-sm-3">
                 <div class="card">
                     <div class="card-header atuador">
@@ -342,10 +360,12 @@ date_default_timezone_set('Europe/Lisbon');
                     </div>
                 </div>
             </div>
-
-            <!-- Zona de controlo apenas admin e gestor  -->
+             
+            
+            <!-- Verifica se é admin ou gestor para que os botoes para ligar a luz e a ventoinha apareçam -->                   
             <?php if($isAdmin || $isGestor): ?>
             <div class="card-body justify-content-center">
+                
                 <form action="dashboard.php" method="POST" class="mb-3" onsubmit="MudarEstado(event, this)">
                     <input type="hidden" name="nome" value="led">
                     <input type="hidden" name="valor" value="<?php echo ($valor_led == 1) ? '0' : '1'; ?>">
@@ -369,7 +389,9 @@ date_default_timezone_set('Europe/Lisbon');
             </div>
             <?php endif; ?>
         </div>
+        
         <br>
+        
         <div class="col-sm-12">
             <div class="card tabela">
                 <div class="card-header">
@@ -495,7 +517,6 @@ date_default_timezone_set('Europe/Lisbon');
                                 </td>
                             </tr>
 
-
                         </tbody>
 
                     </table>
@@ -507,30 +528,43 @@ date_default_timezone_set('Europe/Lisbon');
     </div>
 
 <script>
+
+// Declara a função invocada quando o utilizador prime um botão de ligar/desligar na zona de controlo
 function MudarEstado(evento, formulario) {
-    //Trava o reload da página
+    // Interrompe o comportamento normal do formulário, que seria recarregar totalmente a página
     evento.preventDefault();
 
-    //Prepara a encomenda
+    // Cria um objeto contendo todos os dados dos campos de input presentes no formulário submetido
     let dados = new FormData(formulario);
+    
+    // Procura e guarda a referência do elemento 'button' que pertence ao formulário que disparou a ação
     let botao = formulario.querySelector('button');
 
-    //Feedback visual imediato
+    // Altera momentaneamente o texto do botão para informar o utilizador que o processo começou
     botao.innerHTML = "A enviar";
 
-    //Envia para o topo do próprio dashboard.php
+    // Inicia um pedido assíncrono para o URL definido no 'action' do formulário (o próprio dashboard.php)
     fetch(formulario.action, {
+        // Define que os dados serão enviados via método HTTP POST
         method: 'POST',
+        // O corpo do pedido contém os valores retirados do formulário (nome do atuador, estado desejado e hora)
         body: dados
     })
+    // Assim que o servidor responde, transforma a resposta bruta em texto simples legível
     .then(resposta => resposta.text())
+    // Após extrair o texto, avalia o que o servidor comunicou
     .then(texto => {
+        // Se a reposta foi positiva (neste script em específico espera pela string literal "Sucesso", apesar de não estar implementada no lado do servidor)
         if (texto === "Sucesso") {
+            // Atualiza o texto do botão finalizando o processo de feedback visual
             botao.innerHTML = "Feito!";
         }
     })
+    // Caso ocorra alguma falha na comunicação de rede durante o pedido (ex. perda de net)
     .catch(erro => {
+        // Imprime os detalhes técnicos do erro no console do navegador para ajudar no debug
         console.error("Erro:", erro);
+        // Atualiza a interface gráfica do botão avisando o utilizador que a ação falhou
         botao.innerHTML = "Erro";
     });
 }

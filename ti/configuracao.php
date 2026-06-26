@@ -1,36 +1,53 @@
 <?php
-//verifica a sessão e se é admin 
+// Inicia ou retoma a sessão atual para aceder aos dados do utilizador
 session_start();
+
+// Verifica se o utilizador não está autenticado (se a variável de sessão não existe)
 if(!isset($_SESSION['username'])){
+    // Redireciona o utilizador de volta para a página de login após 5 segundos
     header("refresh:5;url=index.php");
+    // Interrompe imediatamente a execução da página e exibe uma mensagem
     exit("Acesso Restrito");
 }
 
+// Guarda o nome do utilizador da sessão numa variável
 $user = $_SESSION['username'];
+
+// Regra de segurança rígida: verifica se o utilizador é diferente de 'admin'
 if($user !== 'admin'){
+    // Se não for admin (por exemplo, for um gestor), bloqueia o acesso totalmente e mostra mensagem de erro
     die("Erro 403: Acesso Negado. Esta página é exclusiva para o admin.");
 }
 
-//Processa o post
+// Verifica se a página recebeu dados vindos de um formulário através do método POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    
+    // Se o formulário enviou um valor para 'temp_alvo' (Temperatura Alvo)
     if (isset($_POST['temp_alvo'])) {
+        // Guarda esse novo valor diretamente no ficheiro de texto correspondente, substituindo o anterior
         file_put_contents("api/files/tAlvo/valor.txt", $_POST['temp_alvo']);
     }
     
+    // Se o formulário enviou um valor para 'estado_alarme'
     if (isset($_POST['estado_alarme'])) {
+        // Guarda esse novo estado (0 ou 1) no ficheiro do gatilho do alarme
         file_put_contents("api/files/gatilho_alarme/valor.txt", $_POST['estado_alarme']);
     }
     
+    // Após gravar os dados, redireciona a página para ela própria para limpar o histórico do POST 
+    // e evitar reenvios de formulário se o utilizador atualizar a página
     header("Location: configuracao.php");
     exit();
 }
 
-
+// Lê os valores atuais gravados nos ficheiros de texto para poder mostrá-los nos formulários
 $temp_alvo_atual = file_get_contents("api/files/tAlvo/valor.txt");
 $alarme_atual = file_get_contents("api/files/gatilho_alarme/valor.txt");
 
-//valores default
+// Valores por defeito (fallback): 
+// Se o ficheiro da temperatura estiver vazio ou não existir, assume o valor 25
 if (!$temp_alvo_atual) $temp_alvo_atual = 25; 
+// Se o ficheiro do alarme estiver vazio ou não existir, assume o valor 0 (Desarmado)
 if (!$alarme_atual) $alarme_atual = 0; 
 ?>
 
@@ -49,6 +66,7 @@ if (!$alarme_atual) $alarme_atual = 0;
     
     <style>
     .card-header{
+        /* Força a cor de fundo do cabeçalho dos cartões a ser um azul transparente */
         background-color: rgba(13, 110, 253, 0.4) !important; 
     }
     </style>
