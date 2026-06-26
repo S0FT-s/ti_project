@@ -332,7 +332,7 @@ date_default_timezone_set('Europe/Lisbon');
                     <div class="card-header atuador">
                         <p class="text-center">
                             <?php
-                                if($valor_ventoinha == 1){
+                                if($valor_alarme == 1){
                                     echo "<strong>$nome_alarme: </strong> LIGADO";
                                 }else{
                                     echo "<strong>$nome_alarme: </strong> DESLIGADO";
@@ -344,7 +344,7 @@ date_default_timezone_set('Europe/Lisbon');
 
                     <div class="card-body">
                         <?php 
-                        if($valor_ventoinha==1){
+                        if($valor_alarme==1){
                             echo "<img src='images/AlarmeLigado.png' alt='alarme_on'>";
                         }else{
                             echo "<img src='images/AlarmeDesligado.png' alt='alarme_off'>";

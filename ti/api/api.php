@@ -9,9 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Imprime uma mensagem simples de depuração (debug) para confirmar que o script identificou o POST
     echo "recebi um post";
     
-    // Imprime no ecrã a estrutura e o conteúdo do array $_POST para facilitar a identificação dos dados recebidos
-    print_r($_POST);
-
     // Valida de segurança: verifica se os três parâmetros obrigatórios foram enviados no pedido
     if (isset($_POST['nome']) && isset($_POST['valor']) && isset($_POST['hora'])) {
         
@@ -44,6 +41,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         
         // Adiciona a nova linha de registo ao ficheiro 'log.txt' sem apagar os dados anteriores (através da diretiva FILE_APPEND)
         file_put_contents("$dir/log.txt", $valor_log, FILE_APPEND);
+
+        // Imprime no ecrã a estrutura e o conteúdo do array $_POST para facilitar a identificação dos dados recebidos
+        print_r($_POST);
+
         
     } else {
         // Bloco executado se o pedido POST não trouxer o nome, o valor ou a hora
